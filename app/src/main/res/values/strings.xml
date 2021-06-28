@@ -1,3 +1,9 @@
 <resources>
-    <string name="app_name">PlayerPicture</string>
+    <string name="app_name">PlayPicture</string>
+    <string name="white">全白</string>
+    <string name="black">全黑</string>
+    <string name="green">全绿</string>
+    <string name="blue">全蓝</string>
+    <string name="red">全红</string>
+    <string name="check_up">检测时长</string>
 </resources>
