@@ -14,6 +14,7 @@ import androidx.viewpager2.widget.ViewPager2
 
 import com.zyh.playerpicture.cache.SPToolsImpl
 import com.zyh.playerpicture.databinding.FragmentColorCheckBinding
+import java.util.ArrayList
 
 
 /**
@@ -26,15 +27,9 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
     companion object {
         var preferences=null
         private const val TAG = "ColorCheckFragment"
-        private val mColorData = arrayListOf(
-            Pair(R.string.white, R.color.white),
-            Pair(R.string.black, R.color.blackcolor),
-            Pair(R.string.green, R.color.greencolor),
-            Pair(R.string.blue, R.color.bluecolor),
-            Pair(R.string.red, R.color.redcolor),
-        )
-    }
 
+    }
+    protected var mDrawableList: MutableList<Int> = ArrayList()
     private var itemPosition = 0
     private var isFinish = false
     private val TIME = 1700
@@ -55,19 +50,25 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
         binding = FragmentColorCheckBinding.inflate(inflater, container, false)
         return binding.root
     }
-
+    private fun initData() {
+        for (i in 0..5) {
+            val drawable = resources.getIdentifier("guide$i", "drawable", context?.packageName)
+            mDrawableList.add(drawable)
+        }
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mHandler.removeCallbacks(hideIndicatorTask)
         mHandler1.removeCallbacks(runnableForViewPager)
         setIndicatorVisible(true)
+        initData()
         mHandler.postDelayed(hideIndicatorTask, 2000)
         mHandler1.postDelayed(runnableForViewPager, 1700)
         binding.apply {
             colorPager.apply {
                 orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                adapter = ColorCheckAdapter(requireContext(), mColorData).also {
+                adapter = ColorCheckAdapter(requireContext(), mDrawableList).also {
                     it.setOnPagerClickListener {
                         mHandler.removeCallbacks(hideIndicatorTask)
                         setIndicatorVisible(true)
@@ -100,8 +101,8 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
                     }
                 })
             }
-            colorIndicator.init(mColorData, 0)
-            colorIndicator.attach2ViewPager(colorPager)
+            //colorIndicator.init(mColorData, 0)
+            //colorIndicator.attach2ViewPager(colorPager)
 
             checkFinish.setOnClickListener {
                 activity?.finish()
@@ -140,7 +141,7 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
 
     private fun setIndicatorVisible(isVisible: Boolean) {
         binding.apply {
-            colorIndicator.isVisible = isVisible
+           // colorIndicator.isVisible = isVisible
         }
     }
 

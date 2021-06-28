@@ -54,29 +54,19 @@
     </FrameLayout>
 
 
-    <com.zyh.playerpicture.ColorIndicator
-        android:id="@+id/color_indicator"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
-
     <TextView
         android:id="@+id/check_finish"
         android:layout_width="73dp"
         android:layout_height="39dp"
-        android:layout_marginStart="7dp"
         android:background="@drawable/btn_confirm"
         android:gravity="center"
         android:includeFontPadding="false"
-        android:textColor="@color/white"
         android:text="退出"
+        android:textColor="@color/white"
         android:textSize="9sp"
-        app:layout_constraintBottom_toBottomOf="@id/color_indicator"
-        app:layout_constraintStart_toEndOf="@id/color_indicator"
-        app:layout_constraintTop_toTopOf="@id/color_indicator" />
+        app:layout_constraintBottom_toBottomOf="@+id/color_pager"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
