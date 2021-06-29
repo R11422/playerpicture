@@ -86,7 +86,7 @@ public class SPToolsImpl extends SPTools {
 
     /*===========*/
     public static long getCountDownTime() {
-        return getDefault().getLong(CountDownTime, 1000*60*60);
+        return getDefault().getLong(CountDownTime, 1000*60*40);
     }
 
     public static void setCheckUp(boolean ischeckup) {
