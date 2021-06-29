@@ -1,5 +1,6 @@
 package com.zyh.playerpicture
 
+import android.net.Uri
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
@@ -60,47 +61,48 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         mHandler.removeCallbacks(hideIndicatorTask)
-        mHandler1.removeCallbacks(runnableForViewPager)
+        //mHandler1.removeCallbacks(runnableForViewPager)
         setIndicatorVisible(true)
-        initData()
+        //initData()
+        playMp4()
         mHandler.postDelayed(hideIndicatorTask, 2000)
-        mHandler1.postDelayed(runnableForViewPager, 1700)
+        //mHandler1.postDelayed(runnableForViewPager, 1700)
         binding.apply {
-            colorPager.apply {
-                orientation = ViewPager2.ORIENTATION_HORIZONTAL
-                adapter = ColorCheckAdapter(requireContext(), mDrawableList).also {
-                    it.setOnPagerClickListener {
-                        mHandler.removeCallbacks(hideIndicatorTask)
-                        setIndicatorVisible(true)
-                        mHandler.postDelayed(hideIndicatorTask, 2000)
-                    }
-                }
-
-                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
-                    override fun onPageSelected(position: Int) {
-
-                        Log.i(TAG, "onPageSelected: "+position)
-                        super.onPageSelected(position)
-                        itemPosition=position
-                        start()
-                    }
-
-                    override fun onPageScrollStateChanged(state: Int) {
-                        when (state) {
-                            ViewPager2.SCROLL_STATE_SETTLING,
-                            ViewPager2.SCROLL_STATE_DRAGGING -> {
-                                mHandler.removeCallbacks(hideIndicatorTask)
-                                setIndicatorVisible(true)
-                                llNav.isVisible = false
-                            }
-
-                            ViewPager2.SCROLL_STATE_IDLE -> {
-                                mHandler.postDelayed(hideIndicatorTask, 2000)
-                            }
-                        }
-                    }
-                })
-            }
+//            colorPager.apply {
+//                orientation = ViewPager2.ORIENTATION_HORIZONTAL
+//                adapter = ColorCheckAdapter(requireContext(), mDrawableList).also {
+//                    it.setOnPagerClickListener {
+//                        mHandler.removeCallbacks(hideIndicatorTask)
+//                        setIndicatorVisible(true)
+//                        mHandler.postDelayed(hideIndicatorTask, 2000)
+//                    }
+//                }
+//
+//                registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback() {
+//                    override fun onPageSelected(position: Int) {
+//
+//                        Log.i(TAG, "onPageSelected: "+position)
+//                        super.onPageSelected(position)
+//                        itemPosition=position
+//                        start()
+//                    }
+//
+//                    override fun onPageScrollStateChanged(state: Int) {
+//                        when (state) {
+//                            ViewPager2.SCROLL_STATE_SETTLING,
+//                            ViewPager2.SCROLL_STATE_DRAGGING -> {
+//                                mHandler.removeCallbacks(hideIndicatorTask)
+//                                setIndicatorVisible(true)
+//                                llNav.isVisible = false
+//                            }
+//
+//                            ViewPager2.SCROLL_STATE_IDLE -> {
+//                                mHandler.postDelayed(hideIndicatorTask, 2000)
+//                            }
+//                        }
+//                    }
+//                })
+//            }
             //colorIndicator.init(mColorData, 0)
             //colorIndicator.attach2ViewPager(colorPager)
 
@@ -137,6 +139,17 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
         super.onPause()
 
     }
+    private fun playMp4() {
+        binding.apply {
+            playerView.setVideoURI(Uri.parse("android.resource://" + requireContext().packageName + "/" + R.raw.play))
+            playerView.setOnPreparedListener {
+                it.isLooping = true
+                it.start()
+            }
+            playerView.start()
+        }
+
+    }
 
 
     private fun setIndicatorVisible(isVisible: Boolean) {
@@ -148,21 +161,21 @@ class ColorCheckFragment : BaseNavFragment(),CountDownTimeViewModel.FinishCountd
     /**
      * ViewPager的定时器
      */
-    var runnableForViewPager: Runnable = object : Runnable {
-        override fun run() {
-            try {
-                itemPosition++
-                binding.colorPager.setCurrentItem(itemPosition)
-            } catch (e: Exception) {
-                e.printStackTrace()
-            }
-        }
-    }
+//    var runnableForViewPager: Runnable = object : Runnable {
+//        override fun run() {
+//            try {
+//                itemPosition++
+//                binding.colorPager.setCurrentItem(itemPosition)
+//            } catch (e: Exception) {
+//                e.printStackTrace()
+//            }
+//        }
+//    }
 
-    private fun start() {
-        mHandler1.removeCallbacksAndMessages(null)
-        mHandler1.postDelayed(runnableForViewPager, 1700)
-    }
+//    private fun start() {
+//        mHandler1.removeCallbacksAndMessages(null)
+//        mHandler1.postDelayed(runnableForViewPager, 1700)
+//    }
 
     override fun finish() {
         activity?.finish()
